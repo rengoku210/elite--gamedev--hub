@@ -1,14 +1,17 @@
-// Vite configuration for TanStack Start with Vercel deployment support
-// For Vercel / static hosting, the build output under dist/client is served as
-// a SPA via the rewrite rule in vercel.json. Razorpay live webhooks require a
-// real backend host (e.g. Supabase edge functions).
+// TanStack Start configuration for Vercel deployment
+// Uses the official @lovable.dev/vite-tanstack-config preset
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import tsConfigPaths from "vite-tsconfig-paths";
+import { tanstackStartConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
-  plugins: [react(), tsConfigPaths()],
+  plugins: [
+    react(),
+    tsConfigPaths(),
+    tanstackStartConfig(), // Official TanStack Start configuration
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -21,17 +24,7 @@ export default defineConfig({
       input: {
         main: path.resolve(__dirname, "index.html"),
       },
-      output: {
-        // Ensure proper module handling
-        format: "es",
-        entryFileNames: "assets/[name].[hash].js",
-        chunkFileNames: "assets/[name].[hash].js",
-        assetFileNames: "assets/[name].[hash][extname]",
-      },
     },
-  },
-  server: {
-    middlewareMode: false,
   },
   optimizeDeps: {
     include: [
@@ -39,6 +32,7 @@ export default defineConfig({
       "react-dom",
       "@tanstack/react-router",
       "@tanstack/react-query",
+      "@tanstack/react-start",
     ],
   },
 });

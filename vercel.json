@@ -8,7 +8,7 @@
   },
   "rewrites": [
     {
-      "source": "/((?!_next/static|_next/image|favicon\\.ico|public/).*)",
+      "source": "/((?!assets/|_next/|favicon\\.ico|public/).*)",
       "destination": "/index.html"
     }
   ],

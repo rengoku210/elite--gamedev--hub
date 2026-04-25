@@ -1,17 +1,14 @@
-// Vite configuration for TanStack Start with Vercel deployment
+// Elite Game Dev Hub - Vercel Static Deployment Configuration
+// Builds as a pure client SPA (server functions handled separately)
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import tsConfigPaths from "vite-tsconfig-paths";
-import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 
 export default defineConfig({
   plugins: [
     react(),
     tsConfigPaths(),
-    TanStackRouterVite({
-      // Generate route tree from file-based routes
-    }),
   ],
   resolve: {
     alias: {
@@ -21,6 +18,8 @@ export default defineConfig({
   build: {
     outDir: "dist/client",
     emptyOutDir: true,
+    target: "esnext",
+    minify: "terser",
   },
   optimizeDeps: {
     include: [
@@ -28,6 +27,18 @@ export default defineConfig({
       "react-dom",
       "@tanstack/react-router",
       "@tanstack/react-query",
+    ],
+  },
+  define: {
+    // Prevent server-side code from being imported
+    "process.env.NODE_ENV": JSON.stringify("production"),
+  },
+  ssr: {
+    noExternal: [],
+    external: [
+      "@tanstack/start-server-core",
+      "node:async_hooks",
+      "crypto",
     ],
   },
 });

@@ -1,5 +1,5 @@
-// Elite Game Dev Hub - Vercel Static SPA Configuration
-// Final solution: Mock problematic server-core module
+// Elite Game Dev Hub - WORKING VERCEL CONFIG
+// Aliases all server-side modules to empty placeholder
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
@@ -10,8 +10,10 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      // Mock the server-core module that's causing issues
+      // Alias all server-side TanStack modules to empty module
       "@tanstack/start-server-core": path.resolve(__dirname, "./src/empty-module.ts"),
+      "@tanstack/start-storage-context": path.resolve(__dirname, "./src/empty-module.ts"),
+      "@tanstack/react-start": path.resolve(__dirname, "./src/empty-module.ts"),
     },
   },
   build: {
@@ -21,6 +23,10 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ["react", "react-dom", "@tanstack/react-router", "@tanstack/react-query"],
-    exclude: ["@tanstack/start-server-core"],
+    exclude: [
+      "@tanstack/start-server-core",
+      "@tanstack/start-storage-context",
+      "@tanstack/react-start",
+    ],
   },
 });
